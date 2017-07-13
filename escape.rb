@@ -30,7 +30,11 @@ class Escape < Gosu::Window
   end
 
   def update
-
+		unless @game_over
+			10.times do
+				@space.step(1.0/600) #update 600x/sec
+			end
+		end
   end
 
 end
