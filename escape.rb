@@ -41,6 +41,7 @@ class Escape < Gosu::Window
 		@background.draw(0,529,0) #one image doesn't fill window
 		@boulders.each { |boulder| boulder.draw }
 		@platforms.each { |platform| platform.draw }
+		@player.draw
   end
 
   def update
