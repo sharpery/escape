@@ -35,6 +35,8 @@ class Escape < Gosu::Window
 		@left_wall = Wall.new(self, -10, 400, 20, 800)
 		@right_wall = Wall.new(self, 810, 470, 20, 660)
 		@player = Chip.new(self, 70, 700)
+		@sign = Gosu::Image.new('images/exit.png')
+		@font = Gosu::Font.new(40)
   end
 
   def draw
@@ -43,6 +45,14 @@ class Escape < Gosu::Window
 		@boulders.each { |boulder| boulder.draw }
 		@platforms.each { |platform| platform.draw }
 		@player.draw
+		@sign.draw(650, 30, 1)
+		if @game_over == false
+			@seconds = (Gosu.milliseconds / 1000).to_i
+			@font.draw("#{@seconds}", 10,20,3,1,1,0xff00ff00)
+		else
+			@font.draw("#{@win_time/1000}", 10, 20, 3, 1, 1, 0xff00ff00)
+			@font.draw("Game Over", 200, 300, 3,2,2,0xff00ff00)
+		end
   end
 
   def update
@@ -65,6 +75,10 @@ class Escape < Gosu::Window
 			@platforms.each do |platform|
 				platform.move if platform.respond_to?(:move)
 			end
+			# if @player.x > 820
+      #   @game_over = true
+      #   @win_time = Gosu.milliseconds
+      # end
 		end
 
   end
