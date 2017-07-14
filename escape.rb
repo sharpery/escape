@@ -9,6 +9,8 @@
 require 'gosu'
 require 'chipmunk'
 require_relative 'boulder'
+require_relative 'platform'
+require_relative 'wall'
 
 class Escape < Gosu::Window
 	attr_reader :space
@@ -26,14 +28,17 @@ class Escape < Gosu::Window
 		@space.damping = DAMPING
 		@space.gravity = CP::Vec2.new(0.0,GRAVITY)
 		@boulders = []
+		@platforms = make_platforms
+		@floor = Wall.new(self, 400, 810, 800, 20)
+		@left_wall = Wall.new(self, -10, 400, 20, 800)
+		@right_wall = Wall.new(self, 810, 470, 20, 660)
   end
 
   def draw
 		@background.draw(0,0,0)
 		@background.draw(0,529,0) #one image doesn't fill window
-		@boulders.each do |boulder|
-			boulder.draw
-		end
+		@boulders.each { |boulder| boulder.draw }
+		@platforms.each { |platform| platform.draw }
   end
 
   def update
@@ -47,6 +52,15 @@ class Escape < Gosu::Window
 			end
 		end
   end
+
+	def make_platforms #creates all the platforms and returns array of platforms
+		platforms = []
+		platforms.push Platform.new(self, 150, 700)
+		platforms.push Platform.new(self, 320, 650)
+		platforms.push Platform.new(self, 150, 500)
+		platforms.push Platform.new(self, 470, 550)
+		return platforms
+	end
 
 end
 
