@@ -12,6 +12,7 @@ require_relative 'boulder'
 require_relative 'platform'
 require_relative 'wall'
 require_relative 'chip'
+require_relative 'moving_platform'
 
 class Escape < Gosu::Window
 	attr_reader :space
@@ -53,14 +54,17 @@ class Escape < Gosu::Window
 				@boulders.push Boulder.new(self, 200 + rand(400), -20)
 				#boulder added off the top of the window, between 1/4 and 3/4 of the window width
 			end
-		end
-		@player.check_footing(@platforms + @boulders)
-		if button_down?(Gosu::KbRight)
-			@player.move_right
-		elsif button_down?(Gosu::KbLeft)
-			@player.move_left
-		else
-			@player.stand
+			@player.check_footing(@platforms + @boulders)
+			if button_down?(Gosu::KbRight)
+				@player.move_right
+			elsif button_down?(Gosu::KbLeft)
+				@player.move_left
+			else
+				@player.stand
+			end
+			@platforms.each do |platform|
+				platform.move if platform.respond_to?(:move)
+			end
 		end
 
   end
@@ -71,8 +75,18 @@ class Escape < Gosu::Window
 		platforms.push Platform.new(self, 320, 650)
 		platforms.push Platform.new(self, 150, 500)
 		platforms.push Platform.new(self, 470, 550)
+		platforms.push MovingPlatform.new(self, 580, 650, 30, :vertical)
+		platforms.push MovingPlatform.new(self, 450, 230, 70, :horizontal)
+		platforms.push MovingPlatform.new(self, 190, 330, 50, :vertical)
+		platforms.push Platform.new(self, 320, 440)
+		platforms.push Platform.new(self, 600, 150)
+		platforms.push Platform.new(self, 700, 450)
+		platforms.push Platform.new(self, 580, 300)
+		platforms.push Platform.new(self, 750, 140)
+		platforms.push Platform.new(self, 700, 700)
 		return platforms
 	end
+
 
 	def button_down(id)
 		if id == Gosu::KbSpace
