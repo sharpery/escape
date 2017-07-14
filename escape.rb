@@ -11,6 +11,7 @@ require 'chipmunk'
 require_relative 'boulder'
 require_relative 'platform'
 require_relative 'wall'
+require_relative 'chip'
 
 class Escape < Gosu::Window
 	attr_reader :space
@@ -32,6 +33,7 @@ class Escape < Gosu::Window
 		@floor = Wall.new(self, 400, 810, 800, 20)
 		@left_wall = Wall.new(self, -10, 400, 20, 800)
 		@right_wall = Wall.new(self, 810, 470, 20, 660)
+		@player = Chip.new(self, 70, 700)
   end
 
   def draw
