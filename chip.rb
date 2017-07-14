@@ -33,6 +33,13 @@ class Chip
     @off_ground = true
   end
 
+  def x
+    @body.p.x
+  end
+  def y
+    @body.p.y
+  end
+
   def draw
     case @action
     when :run_right

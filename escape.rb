@@ -72,8 +72,8 @@ class Escape < Gosu::Window
   end
 
   def update
-		camera.center_on(@player, 400, 200)
-		unless @game_over
+		@camera.center_on(@player, 400, 200)
+		if @game_over == false
 			10.times do
 				@space.step(1.0/600) #update 600x/sec
 			end
@@ -81,6 +81,10 @@ class Escape < Gosu::Window
 				@boulders.push Boulder.new(self, 200 + rand(1200), -20)
 				#boulder added off the top of the window, between 1/4 and 3/4 of the window width
 			end
+			if @player.x > 820
+        @game_over = true
+        @win_time = Gosu.milliseconds
+      end
 			@player.check_footing(@platforms + @boulders)
 			if button_down?(Gosu::KbRight)
 				@player.move_right
@@ -92,16 +96,39 @@ class Escape < Gosu::Window
 			@platforms.each do |platform|
 				platform.move if platform.respond_to?(:move)
 			end
-			if @player.x > 820
-        @game_over = true
-        @win_time = Gosu.milliseconds
-      end
 		end
-
   end
 
 	def make_platforms #creates all the platforms and returns array of platforms
 		platforms = []
+		(0..10).each do |row|
+			(0..4).each do |column|
+				x = column * 300 + 200
+				y = row * 140 + 100
+				if row % 2 == 0
+					x -= 150
+				end
+				x += rand(100) - 50
+				y += rand(100) - 50
+				num = rand
+				if num < 0.40
+					direction = rand < 0.5 ? :vertical : :horizontal
+					range = 30 + rand(40)
+					platforms.push MovingPlatform.new(self, x, y, range, direction)
+				elsif num < 0.90
+					platforms.push Platform.new(self, x, y)
+				end
+			end
+		end
+		platforms.push Platform.new(self, 1550, 140)
+		return platforms
+	end
+
+
+
+			end
+
+		end
 		# platforms.push Platform.new(self, 150, 700)
 		# platforms.push Platform.new(self, 320, 650)
 		# platforms.push Platform.new(self, 150, 500)
