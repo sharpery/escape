@@ -54,6 +54,15 @@ class Escape < Gosu::Window
 				#boulder added off the top of the window, between 1/4 and 3/4 of the window width
 			end
 		end
+		@player.check_footing(@platforms + @boulders)
+		if button_down?(Gosu::KbRight)
+			@player.move_right
+		elsif button_down?(Gosu::KbLeft)
+			@player.move_left
+		else
+			@player.stand
+		end
+
   end
 
 	def make_platforms #creates all the platforms and returns array of platforms
@@ -63,6 +72,15 @@ class Escape < Gosu::Window
 		platforms.push Platform.new(self, 150, 500)
 		platforms.push Platform.new(self, 470, 550)
 		return platforms
+	end
+
+	def button_down(id)
+		if id == Gosu::KbSpace
+			@player.jump
+		end
+		if id == Gosu::KbQ
+			close
+		end
 	end
 
 end
