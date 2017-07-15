@@ -35,4 +35,8 @@ class Boulder
     @image.draw_rot(@body.p.x, @body.p.y, 1, @body.angle * (180.0 / Math::PI))
   end
 
+  def quake
+    @body.apply_impulse(CP::Vec2.new(rand(100000) - 50000, 100000), CP::Vec2.new(rand*0.8 - 0.4, 0))
+  end
+
 end

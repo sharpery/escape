@@ -25,4 +25,9 @@ class Camera
       yield
     end
   end
+
+  def shake
+    @x_offset += rand(9) - 4
+    @y_offset =+ rand(9) -4
+  end
 end

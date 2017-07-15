@@ -44,6 +44,8 @@ class Escape < Gosu::Window
 		@font_small = Gosu::Font.new(18)
 		@music = Gosu::Song.new('sounds/zanzibar.ogg')
 		@music.play(true)
+		@quake_time = 0
+		@quake_sound = Gosu::Sample.new('sounds/quake.ogg')
   end
 
   def draw
@@ -95,6 +97,16 @@ class Escape < Gosu::Window
 			end
 			@platforms.each do |platform|
 				platform.move if platform.respond_to?(:move)
+			end
+			if rand < 0.001
+				quake
+			end
+			@quake_time -= 1
+			if @quake_time > 0
+				@camera.shake
+				if rand < 0.2
+					@boulders.push Boulder.new(self, 200 + rand(1200), -20)
+				end
 			end
 		end
   end
@@ -159,6 +171,13 @@ class Escape < Gosu::Window
 		@font_small.draw('Creative Commons: By Attribution 3.0', 100, 650, 3, 2, 2, color)
 		@font_small.draw('http://creativecommons.org/licenses/by/3.0/', 100, 700, 3, 2, 2, color)
 	end
+
+	def quake
+		@quake_time = 30
+		@quake_sound.play
+		@boulders.each { |boulder| boulder.quake }
+	end
+
 end
 
 window = Escape.new
