@@ -20,7 +20,7 @@ class Escape < Gosu::Window
 
 	DAMPING = 0.90 #determines how objects slow down
 	GRAVITY = 400.0
-	BOULDER_FREQUENCY = 0.01
+	BOULDER_FREQUENCY = 0.03
 
 	def initialize
 		super 800,800,false
@@ -124,11 +124,6 @@ class Escape < Gosu::Window
 		return platforms
 	end
 
-
-
-			end
-
-		end
 		# platforms.push Platform.new(self, 150, 700)
 		# platforms.push Platform.new(self, 320, 650)
 		# platforms.push Platform.new(self, 150, 500)
@@ -142,9 +137,6 @@ class Escape < Gosu::Window
 		# platforms.push Platform.new(self, 580, 300)
 		# platforms.push Platform.new(self, 750, 140)
 		# platforms.push Platform.new(self, 700, 700)
-		return platforms
-	end
-
 
 	def button_down(id)
 		if id == Gosu::KbSpace
@@ -167,7 +159,6 @@ class Escape < Gosu::Window
 		@font_small.draw('Creative Commons: By Attribution 3.0', 100, 650, 3, 2, 2, color)
 		@font_small.draw('http://creativecommons.org/licenses/by/3.0/', 100, 700, 3, 2, 2, color)
 	end
-
 end
 
 window = Escape.new
